@@ -51,14 +51,14 @@ def initial_data(dataset, r, noise_mode, root_dir, args):
     # build noise
     noise_label = dataset_split(train_images=train_data, train_labels=train_label,
                                 noise_rate=r, noise_type=noise_mode,
-                                random_seed=args.seed, num_classes=num_classes)
+                                random_seed=args.seed_noise, num_classes=num_classes)
 
     print('============ Actual clean samples number: ', sum(np.array(noise_label) == np.array(train_label)))
     return train_data, train_label, noise_label, test_data, test_label
 
 
 class cifar_dataset(Dataset):
-    def __init__(self, data, real_label, label, transform, mode, strong_transform=None, pred=[], probability=[], test_log=None, id_list=None):
+    def __init__(self, data, real_label, label, transform, mode, strong_transform=None, pred=[], probability=[], test_log=None, id_list=None, args=None):
         self.data = None
         self.label = None
         self.transform = transform
@@ -68,12 +68,14 @@ class cifar_dataset(Dataset):
         self.probability = None
         self.real_label = real_label
         self.id_list = id_list
+        self.args = args
+        self.clean_count = None
 
         if self.mode == 'all' or self.mode == 'test':
             self.data = data
             self.label = label
         else:
-            if self.mode == 'labeled':
+            if (self.mode == 'labeled') or (self.mode == 'labeled_fig7'):
                 pred_idx = self.pred.nonzero()[0]
                 self.probability = [probability[i] for i in pred_idx]
 
@@ -85,9 +87,16 @@ class cifar_dataset(Dataset):
             self.id_list = pred_idx
             true_label = [self.real_label[i] for i in pred_idx]
             f1_ = f1_score(true_label, self.label, average='micro')
+            self.mask = [1 if i==j else 0 for i,j in zip(true_label, self.label)]
+            if args.save_sel_sam: 
+                # 계산된 실제 라벨과 예측 라벨을 비교하여 clean 데이터의 수를 계산
+                self.clean_count = sum(1 for i, j in zip(true_label, self.label) if i == j)
 
             print("%s data has a size of %d, f-score: %f" % (self.mode, len(pred_idx), f1_))
             test_log.write("%s data has a size of %d, f-score: %f" % (self.mode, len(pred_idx), f1_))
+            
+
+                
 
     def __getitem__(self, index):
         if self.mode == 'labeled':
@@ -96,6 +105,15 @@ class cifar_dataset(Dataset):
             img1 = self.transform(img)
             img2 = self.strong_aug(img)
             return img1, img2, target, prob
+        
+        if self.mode == 'labeled_fig7':
+            img, target, prob = self.data[index], self.label[index], self.probability[index]
+            img = Image.fromarray(img)
+            img1 = self.transform(img)
+            img2 = self.strong_aug(img)
+            noise = self.mask[index]
+            return img1, img2, target, prob, noise
+
         elif self.mode == 'unlabeled':
             img = self.data[index]
             img = Image.fromarray(img)
@@ -115,6 +133,9 @@ class cifar_dataset(Dataset):
 
     def __len__(self):
         return len(self.data)
+    
+    def get_clean_count(self):
+        return self.clean_count
 
 
 class cifar_dataloader():
@@ -157,24 +178,41 @@ class cifar_dataloader():
     def run(self, mode, pred=[], prob=[], test_log=None):
         if mode == 'warmup':
             all_dataset = cifar_dataset(self.train_data, self.train_label, self.noise_label, self.transform_train, mode='all', strong_transform=None,
-                                            pred=pred, probability=prob, test_log=test_log)
+                                            pred=pred, probability=prob, test_log=test_log, args=self.args)
             trainloader = DataLoader(dataset=all_dataset, batch_size=128, shuffle=True, num_workers=self.num_workers)
             return trainloader
 
         elif mode == 'train':
             labeled_dataset = cifar_dataset(self.train_data, self.train_label, self.noise_label, self.transform_train, mode='labeled',
-                                            strong_transform=None, pred=pred, probability=prob, test_log=test_log)
+                                            strong_transform=None, pred=pred, probability=prob, test_log=test_log, args=self.args)
             labeled_trainloader = DataLoader(dataset=labeled_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers)
+            if self.args.save_sel_sam:
+                clean_count = labeled_dataset.get_clean_count()
+                return labeled_trainloader, clean_count
+            
             return labeled_trainloader
+
+        elif mode == 'labeled_fig7':
+            labeled_dataset = cifar_dataset(self.train_data, self.train_label, self.noise_label, self.transform_train, mode='labeled_fig7',
+                                            strong_transform=None, pred=pred, probability=prob, test_log=test_log, args=self.args)
+            labeled_trainloader = DataLoader(dataset=labeled_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers)
+            if self.args.save_sel_sam:
+                clean_count = labeled_dataset.get_clean_count()
+                return labeled_trainloader, clean_count
+            
+            return labeled_trainloader
+
+
 
         elif mode == 'test':
             test_dataset = cifar_dataset(self.test_data, self.train_label, self.test_label, self.transform_train, mode='test',
-                                         strong_transform=None, pred=pred, probability=prob)
+                                         strong_transform=None, pred=pred, probability=prob, args=self.args)
             test_loader = DataLoader(dataset=test_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers)
             return test_loader
 
         elif mode == 'eval_train':
             eval_dataset = cifar_dataset(self.train_data, self.train_label, self.noise_label, self.transform_train, mode='all',
-                                         strong_transform=None, pred=pred, probability=prob)
+                                         strong_transform=None, pred=pred, probability=prob, args=self.args)
             eval_loader = DataLoader(dataset=eval_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers)
+            
             return eval_loader
