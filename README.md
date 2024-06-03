@@ -50,45 +50,43 @@ Before you run it, please download the CIFAR-10 dataset in `./datset` folder.
 python main.py --dataset cifar10 --model resnet18 --batch_size 32 --lr 0.02 --warm_up 10 --num_epochs 100 --noise_mode instance --r 0.2 --k 2 --T 0.2 --gpuid 0
 ```
 
-### Run for Claim 1
+### Run for Claim 1 : Test accuracy on CIFAR-10 (Table 1. Result)
 
 ```
 
 ```
 
-여기다 table 1 장표 넣기
-
-### Run for Claim 2
+### Run for Claim 2 : Effect of regularization term in Warm-up stage (Fig.7 Result)
 
 ```
 
 ```
 
-여기다 fig 7 plot 넣기
-### Run for Claim 3
+### Run for Claim 3 : Ablation study of each regularization term (Table 7, Fig. 10 Result)
 
 ```
 
 ```
 
-### Run for Claim 4
+### Run for Claim 4 : Study of Memory bank Size (Fig. 9)
 
 ```
 
 ```
 
-### Run for ablation 1
-```
+### Run for ablation 1 : Robustness in various data distribution
 
 ```
 
-### Run for ablation 1
+```
+
+### Run for ablation 2 : Study about our fluctuation implementation based on paper
+
 ```
 
 ```
 
 ### Cite
-If you find the code useful, please consider citing our paper:
 ```
 @inproceedings{wei2022self,
   title={Self-Filtering: A Noise-Aware Sample Selection for Label Noise with Confidence Penalization},
