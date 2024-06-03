@@ -9,10 +9,10 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 
 ### Scope of reproducibility
 
-- Claim 1 : SFT outperforms the almost state-of-the-art on CIFAR-10 with three noise types. (Table 1)
-- Claim 2 : The regularization term in the warm-up stage effectively separates clean and noisy samples. (Fig 7)
-- Claim 3 : The regularization terms improve the performance of SFT. (Table 7, Fig 10)
-- Claim 4 : With a smaller T, SFT attains the best performance. (Fig 9)
+- **Claim 1 : SFT outperforms the almost state-of-the-art on CIFAR-10 with three noise types. (Table 1)**
+- **Claim 2 : The regularization term in the warm-up stage effectively separates clean and noisy samples. (Fig 7)**
+- **Claim 3 : The regularization terms improve the performance of SFT. (Table 7, Fig 10)**
+- **Claim 4 : With a smaller T, SFT attains the best performance. (Fig 9)**
 
 To verify whether the model can robustly learn despite changes in initial model parameters and data distribution, we conducted additional experiments by changing only the data seed while keeping the model seed constant. Upon reviewing the code provided in the paper, we found discrepancies between the provided code and the method described in the paper.
 
