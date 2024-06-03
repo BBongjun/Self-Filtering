@@ -14,13 +14,13 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 
 `--save_sel_sam` for Fig.10 reproduction
 
-`--fluctuation_ablation` for our implentation for fluctuation algorithm based on paper.
+`--fluctuation_ablation` for our implementation for fluctuation algorithm based on paper.
 
 ### Define our claims
-• Claim 1 : SFT outperforms the almost state-of-the-art on CIFAR-10 with three noise types. (Table 1)
-• Claim 2 : The regularization term in the warm-up stage effectively separates clean and noisy samples. (Fig 7)
-• Claim 3 : The regularization terms improve the performance of SFT. (Table 7, Fig 10)
-• Claim 4 : With a smaller T, SFT attains the best performance. (Fig 9)
+- Claim 1 : SFT outperforms the almost state-of-the-art on CIFAR-10 with three noise types. (Table 1)
+- Claim 2 : The regularization term in the warm-up stage effectively separates clean and noisy samples. (Fig 7)
+- Claim 3 : The regularization terms improve the performance of SFT. (Table 7, Fig 10)
+- Claim 4 : With a smaller T, SFT attains the best performance. (Fig 9)
 
 ### Hyper-parameter and settings
 
