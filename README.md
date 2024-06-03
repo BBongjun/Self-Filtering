@@ -1,7 +1,7 @@
 
 # Reproducibility Study of Self-Filtering
 
-We utilize [the official PyTorch Implementation of Self-Filtering](https://github.com/1998v7/Self-Filtering) provided by authors. For our reproducibility
+We utilize [the official PyTorch Implementation of Self-Filtering](https://github.com/1998v7/Self-Filtering) provided by authors.
 
 > Paper ["Self-Filtering: A Noise-Aware Sample Selection for Label Noise with Confidence Penalization"](https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136900511.pdf) is accepted to **ECCV 2022**.
 
@@ -9,8 +9,11 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 
 ### Add new argument for reproduction
 `--fig_7` for Fig.7 reproduction
+
 `--without_R`, `--without_Lcr` for table 7, Fig. 10 reproduction
+
 `--save_sel_sam` for Fig.10 reproduction
+
 `--fluctuation_ablation` for our implentation for fluctuation algorithm based on paper.
 
 ### Define our claims
