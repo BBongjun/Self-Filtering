@@ -32,7 +32,6 @@ parser.add_argument('--model', default='resnet18', type=str)
 parser.add_argument('--without_R', default=0, type=int) # for table 7 reproduction
 parser.add_argument('--without_Lcr', default=0, type=int) # for table 7 reproduction
 parser.add_argument('--save_sel_sam', default=0, type=int) # for Fig. 10 reproduction
-parser.add_argument('--fig_7', default=1, type=int) # for Fig. 7 reproduction
 parser.add_argument('--fluctuation_ablation', default=0, type=int)
 
 
@@ -103,7 +102,7 @@ def main():
             
             else: # default code
                 prob, pred, memory_bank = eval_train(net, memory_bank, eval_loader, args, epoch, test_log)
-                if args.fig_7:
+                if (args.noise_mode == 'instance') and (args.r == 0.4) :
                     labeled_trainloader = loader.run('labeled_fig7', pred, prob, test_log)
                     fig_7(net, labeled_trainloader, args)
                 labeled_trainloader = loader.run('train', pred, prob, test_log)

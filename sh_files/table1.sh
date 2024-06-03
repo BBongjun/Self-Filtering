@@ -1,7 +1,7 @@
 #!/bin/bash
 
 for dataset in cifar10; do
-    for noise_mode in instance; do
+    for noise_mode in sym pair instance; do
         for seed in 1 2 3 4 5; do
             for noise_rate in 0.2 0.4; do
                     # Define log file path

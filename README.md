@@ -20,7 +20,6 @@ To verify whether the model can robustly learn despite changes in initial model 
 - The authors proposed fluctuation, where samples are considered noisy if they transition from correct predictions to incorrect predictions. However, upon examining the implementation in the open-sourced code, we found that selection is based on both the prediction robabilities stored in the memory bank and the presence of fluctuation. Therefore, we implemented the fluctuation criterion as described in the paper and conducted experiments.
 
 ### Add new argument for reproduction
-- `--fig_7` for Fig.7 reproduction
 
 - `--without_R`, `--without_Lcr` for table 7, Fig. 10 reproduction
 
@@ -56,7 +55,7 @@ python main.py --dataset cifar10 --model resnet18 --batch_size 32 --lr 0.02 --wa
 
 ```
 
-여기다 table 1 장표 넣기
+
 
 ### Run for Claim 2
 
@@ -64,7 +63,6 @@ python main.py --dataset cifar10 --model resnet18 --batch_size 32 --lr 0.02 --wa
 
 ```
 
-여기다 fig 7 plot 넣기
 ### Run for Claim 3
 
 ```
