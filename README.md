@@ -7,20 +7,26 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 
 # Experiment setting for reproducing
 
-### Add new argument for reproduction
-`--fig_7` for Fig.7 reproduction
+### Scope of reproducibility
 
-`--without_R`, `--without_Lcr` for table 7, Fig. 10 reproduction
-
-`--save_sel_sam` for Fig.10 reproduction
-
-`--fluctuation_ablation` for our implementation for fluctuation algorithm based on paper.
-
-### Define our claims
 - Claim 1 : SFT outperforms the almost state-of-the-art on CIFAR-10 with three noise types. (Table 1)
 - Claim 2 : The regularization term in the warm-up stage effectively separates clean and noisy samples. (Fig 7)
 - Claim 3 : The regularization terms improve the performance of SFT. (Table 7, Fig 10)
 - Claim 4 : With a smaller T, SFT attains the best performance. (Fig 9)
+
+
+
+### Add new argument for reproduction
+- `--fig_7` for Fig.7 reproduction
+
+- `--without_R`, `--without_Lcr` for table 7, Fig. 10 reproduction
+
+- `--save_sel_sam` for Fig.10 reproduction
+
+- `--fluctuation_ablation` for our implementation for fluctuation algorithm based on paper.
+
+- we utilize [Coteaching official code] and [JoCoR official code] for Claim 1.
+
 
 ### Hyper-parameter and settings
 
@@ -47,8 +53,33 @@ python main.py --dataset cifar10 --model resnet18 --batch_size 32 --lr 0.02 --wa
 
 ```
 
+### Run for Claim 2
 
+```
 
+```
+
+### Run for Claim 3
+
+```
+
+```
+
+### Run for Claim 4
+
+```
+
+```
+
+### Run for ablation 1
+```
+
+```
+
+### Run for ablation 1
+```
+
+```
 
 ### Cite
 If you find the code useful, please consider citing our paper:
