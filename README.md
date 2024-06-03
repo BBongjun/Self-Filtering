@@ -29,7 +29,7 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 
 ### Hyper-parameter and settings
 
-`k`  denotes memory bank size. It can be set as `[2,3,4]`. For all experiment, we set it as **`3` follow original setting.**
+`k`  denotes memory bank size. It can be set as `[2,3,4]`. For all experiment, we set it as `3` follow original setting.
 
 `T`  denotes threshold in confidence penalty. For all experiment, we set it as `0.2`
 
