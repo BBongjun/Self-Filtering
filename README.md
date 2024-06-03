@@ -37,7 +37,7 @@ For CIFAR-10, `warm_up = 10`,`model = resnet18`
 
 For CIFAR-100, `warm_up = 30`,`model = resnet34`
 
-In our study, we focused on CIFAR-10 for simplification of the experiment.
+**In our study, we focused on CIFAR-10 for simplification of the experiment.**
 
 ### Run SFT
 Before you run it, please download the CIFAR-10 dataset in `./datset` folder.
