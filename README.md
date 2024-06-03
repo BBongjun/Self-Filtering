@@ -42,7 +42,7 @@ For CIFAR-10, `warm_up = 10`,`model = resnet18`
 For CIFAR-100, `warm_up = 30`,`model = resnet34`
 
 **In our study, we focused on CIFAR-10 for simplification of the experiment.**
-Before you run it, please download the CIFAR-10 dataset in `./datset` folder.
+To facilitate experimentation, please download the CIFAR-10 dataset in `./datset` folder before running.
 
 ### Run SFT
 
@@ -81,6 +81,7 @@ python main.py --dataset cifar10 --model resnet18 --batch_size 32 --lr 0.02 --wa
 ```
 
 ### Run for ablation 2 : Study about our fluctuation implementation based on paper
+To facilitate experimentation, please create the `./fluctuation_ablation` folder before running.
 
 ```
 
