@@ -290,16 +290,16 @@ def fig_7(net, labeled_trainloader, args):
             noise_loss_list.extend(loss[noise==0].cpu().tolist())
             clean_loss_list.extend(loss[noise==1].cpu().tolist())
 
-        
+        # figure 그리는 directory에 각 loss들의 pickle 파일 저장
         if args.without_R:
-            with open('noise_loss_list_withoutR.pickle', 'wb') as f:
+            with open('./figure_code/noise_loss_list_withoutR.pickle', 'wb') as f:
                 pickle.dump(noise_loss_list, f, pickle.HIGHEST_PROTOCOL)
-            with open('clean_loss_list_withoutR.pickle', 'wb') as f:
+            with open('./figure_code/clean_loss_list_withoutR.pickle', 'wb') as f:
                 pickle.dump(clean_loss_list, f, pickle.HIGHEST_PROTOCOL)
         else:
-            with open('noise_loss_list_withR.pickle', 'wb') as f:
+            with open('./figure_code/noise_loss_list_withR.pickle', 'wb') as f:
                 pickle.dump(noise_loss_list, f, pickle.HIGHEST_PROTOCOL)
-            with open('clean_loss_list_withR.pickle', 'wb') as f:
+            with open('./figure_code/clean_loss_list_withR.pickle', 'wb') as f:
                 pickle.dump(clean_loss_list, f, pickle.HIGHEST_PROTOCOL)
 
 def fig10_to_csv(epoch_list, num_sel_sam_list, num_clean_count_list, filename="output.csv"): 
