@@ -18,7 +18,7 @@ from loss import loss_coteaching
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--lr', type = float, default = 0.001)
-parser.add_argument('--result_dir', type = str, help = 'dir to save result txt files', default = '/home/user/Desktop/jeongwon/딥러닝 팀플/log/co-teaching')
+parser.add_argument('--result_dir', type = str, help = 'dir to save result txt files', default = './log/co-teaching')
 parser.add_argument('--noise_rate', type = float, help = 'corruption rate, should be less than 1', default = 0.2)
 parser.add_argument('--batch_size', type = int, default = 32)
 parser.add_argument('--forget_rate', type = float, help = 'forget rate', default = None)
@@ -27,34 +27,33 @@ parser.add_argument('--num_gradual', type = int, default = 10, help='how many ep
 parser.add_argument('--exponent', type = float, default = 1, help='exponent of the forget rate, can be 0.5, 1, 2. This parameter is equal to c in Tc for R(T) in Co-teaching paper.')
 parser.add_argument('--top_bn', action='store_true')
 parser.add_argument('--dataset', type = str, help = 'cifar10, cifar100', default = 'cifar10')
-parser.add_argument('--n_epoch', type=int, default=75)
+parser.add_argument('--n_epoch', type=int, default=200)
 parser.add_argument('--seed_model', type=int, default=1)
 parser.add_argument('--seed_noise', type=int, default=1)
 parser.add_argument('--printfreq', type=int, default=1000)
 parser.add_argument('--num_workers', type=int, default=4, help='how many subprocesses to use for data loading')
 parser.add_argument('--num_iter_per_epoch', type=int, default=400)
 parser.add_argument('--epoch_decay_start', type=int, default=80)
-parser.add_argument('--gpuid', type=int, default=1)
+parser.add_argument('--gpuid', type=int, default=0)
 
 
 args = parser.parse_args()
 
 # Seed
-torch.manual_seed(args.seed_model)
-torch.cuda.manual_seed(args.seed_model)
-torch.cuda.set_device(args.gpuid)
+
 # Hyper Parameters
 batch_size = args.batch_size
 learning_rate = args.lr 
 
 # load dataset
-
+import os
+print(os.getcwd())
 if args.dataset=='cifar10':
     input_channel=3
     num_classes=10
     args.top_bn = False
     args.epoch_decay_start = 80
-    train_dataset = CIFAR10(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset/cifar10',
+    train_dataset = CIFAR10(root='./dataset/cifar10',
                                 download=False,  
                                 train=True, 
                                 transform=transforms.ToTensor(),
@@ -63,7 +62,7 @@ if args.dataset=='cifar10':
                                 random_state=args.seed_noise
                            )
     
-    test_dataset = CIFAR10(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset/cifar10',
+    test_dataset = CIFAR10(root='./dataset/cifar10',
                                 download=False,  
                                 train=False, 
                                 transform=transforms.ToTensor(),
@@ -77,7 +76,7 @@ if args.dataset=='cifar100':
     num_classes=100
     args.top_bn = False
     args.epoch_decay_start = 100
-    train_dataset = CIFAR100(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset2/cifar100',
+    train_dataset = CIFAR100(root='./dataset/cifar100',
                             download=False,  
                             train=True, 
                             transform=transforms.ToTensor(),
@@ -86,7 +85,7 @@ if args.dataset=='cifar100':
                             random_state=args.seed_noise
                             )
     
-    test_dataset = CIFAR100(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset2/cifar100',
+    test_dataset = CIFAR100(root='./dataset/cifar100',
                                 download=False,  
                                 train=False, 
                                 transform=transforms.ToTensor(),
@@ -124,7 +123,11 @@ save_dir = args.result_dir
 
 model_str=args.dataset+'_'+args.noise_type+'_'+str(args.noise_rate)+'_seedmodel='+str(args.seed_model)
 
-txtfile=save_dir+"/"+model_str+".txt"
+txtfile=save_dir+"/"+model_str+"_test.txt"
+
+torch.manual_seed(args.seed_model)
+torch.cuda.manual_seed(args.seed_model)
+torch.cuda.set_device(args.gpuid)
 
 def accuracy(logit, target):
     """Computes the precision@k for the specified values of k"""

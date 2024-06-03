@@ -13,7 +13,7 @@ from algorithm.jocor import JoCoR
 
 parser = argparse.ArgumentParser()
 # parser.add_argument('--lr', type=float, default=0.001)
-parser.add_argument('--result_dir', type = str, help = 'dir to save result txt files', default = '/home/user/Desktop/jeongwon/딥러닝 팀플/log/jocor')
+parser.add_argument('--result_dir', type = str, help = 'dir to save result txt files', default = './log/jocor')
 parser.add_argument('--noise_rate', type=float, help='corruption rate, should be less than 1', default=0.4)
 parser.add_argument('--forget_rate', type=float, help='forget rate', default=None)
 parser.add_argument('--noise_type', type=str, help='[pairflip, symmetric, instance]', default='pairflip')
@@ -63,7 +63,7 @@ if args.dataset == 'cifar10':
     filter_outlier = True
     args.model_type = "cnn"
     args.n_epoch = 200
-    train_dataset = CIFAR10(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset2/cifar10',
+    train_dataset = CIFAR10(root='./dataset/cifar10',
                                 download=False,  
                                 train=True, 
                                 transform=transforms.ToTensor(),
@@ -73,7 +73,7 @@ if args.dataset == 'cifar10':
                                 random_noise = args.seed_noise
                            )
     
-    test_dataset = CIFAR10(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset2/cifar10',
+    test_dataset = CIFAR10(root='./dataset/cifar10',
                                 download=False,  
                                 train=False, 
                                 transform=transforms.ToTensor(),
@@ -92,7 +92,7 @@ if args.dataset == 'cifar100':
     filter_outlier = False
     args.model_type = "cnn"
 
-    train_dataset = CIFAR100(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset2/cifar100',
+    train_dataset = CIFAR100(root='./dataset/cifar100',
                             download=False,  
                             train=True, 
                             transform=transforms.ToTensor(),
@@ -101,7 +101,7 @@ if args.dataset == 'cifar100':
                             random_state=args.seed_noise
                             )
     
-    test_dataset = CIFAR100(root='/home/user/Desktop/jeongwon/딥러닝 팀플/dataset2/cifar100',
+    test_dataset = CIFAR100(root='./dataset/cifar100',
                             download=False,  
                             train=False, 
                             transform=transforms.ToTensor(),
@@ -135,24 +135,10 @@ def main():
     # print('building model...')
 
     model = JoCoR(args, train_dataset, device, input_channel, num_classes)
-
-    epoch = 0
-    train_acc1 = 0
-    train_acc2 = 0
-
     # evaluate models with random weights
     test_acc1, test_acc2 = model.evaluate(test_loader)
+    test_log = open('./log/jocor/%s_%s_%.1f_seedmodel=%d' % (args.dataset, args.noise_type, args.noise_rate, args.seed_model) + '.txt', 'w')
 
-    # print(
-    #     'Epoch [%d/%d] Test Accuracy on the %s test images: Model1 %.4f %% Model2 %.4f ' % (
-    #         epoch + 1, args.n_epoch, len(test_dataset), test_acc1, test_acc2))
-
-
-    save_dir = args.result_dir
-    model_str=args.dataset+'_'+args.noise_type+'_'+str(args.noise_rate)+'_seedmodel='+str(args.seed_model)
-    
-    test_log = open('/home/user/Desktop/jeongwon/딥러닝 팀플/log/jocor/%s_%s_%.1f_seedmodel=%d' % (args.dataset, args.noise_type, args.noise_rate, args.seed_model) + '.txt', 'w')
-    acc_list = []
     # training
     best_acc = 0
     for epoch in range(1, args.n_epoch):
@@ -166,31 +152,8 @@ def main():
         if mean_accu > best_acc:
             best_acc = mean_accu
 
-        
         test_log.write('Mean Accuracy For : ' + str(int(epoch)) + ': '  + str(mean_accu) + "\n")
-        # save results
-        # if pure_ratio_1_list is None or len(pure_ratio_1_list) == 0:
-            # print(
-            #     'Epoch [%d/%d] Test Accuracy on the %s test images: Model1 %.4f %% Model2 %.4f' % (
-            #         epoch + 1, args.n_epoch, len(test_dataset), test_acc1, test_acc2))
-        # else:
-        #     # save results
-        #     mean_pure_ratio1 = sum(pure_ratio_1_list) / len(pure_ratio_1_list)
-        #     mean_pure_ratio2 = sum(pure_ratio_2_list) / len(pure_ratio_2_list)
-            # print(
-            #     'Epoch [%d/%d] Test Accuracy on the %s test images: Model1 %.4f %% Model2 %.4f %%' % (
-            #         epoch + 1, args.n_epoch, len(test_dataset), test_acc1, test_acc2, mean_pure_ratio1,
-            #         mean_pure_ratio2))
-
-        if epoch >= 190:
-            acc_list.extend([test_acc1, test_acc2])
-
-
     test_log.write('best Accuracy is : ' + str(best_acc) + "\n")
-
-    avg_acc = sum(acc_list)/len(acc_list)
-    # print(len(acc_list))
-    # print("the average acc in last 10 epochs: {}".format(str(avg_acc)))
 
 
 if __name__ == '__main__':
