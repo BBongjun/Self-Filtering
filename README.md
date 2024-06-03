@@ -56,15 +56,12 @@ python main.py --dataset cifar10 --model resnet18 --batch_size 32 --lr 0.02 --wa
 ```
 
 
-
-### Run for Claim 2
 ### Run for Claim 2 : Effect of regularization term in Warm-up stage (Fig.7 Result)
 
 ```
 
 ```
 
-### Run for Claim 3
 ### Run for Claim 3 : Ablation study of each regularization term (Table 7, Fig. 10 Result)
 
 ```
