@@ -45,8 +45,6 @@ elif args.dataset == 'cifar100':
     args.num_class = 100
 print(args)
 
-if args.fig_7:
-    args.num_epochs=10
 set_env(args)
 
 def build_model():
@@ -66,7 +64,7 @@ def build_model():
     return model
 
 def main():
-    test_log = open('./log/base/%s_%s_%.1f_k=%d_seedmodel=%d' % (args.dataset, args.noise_mode, args.r, args.k, args.seed_model) + '_test_fig7.txt', 'w')
+    test_log = open('./log/base/%s_%s_%.1f_k=%d_seedmodel=%d' % (args.dataset, args.noise_mode, args.r, args.k, args.seed_model) + '_test.txt', 'w')
     loader = dataloader.cifar_dataloader(args.dataset, r=args.r, noise_mode=args.noise_mode, batch_size=args.batch_size,
                                          num_workers=8, root_dir=args.data_path, args=args,
                                          noise_file='%s/%.1f_%s.json' % (args.data_path, args.r, args.noise_mode))

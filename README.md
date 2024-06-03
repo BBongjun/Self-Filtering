@@ -26,6 +26,12 @@ that selection is based on both the prediction probabilities stored in the memor
 fluctuation. Therefore, we implemented the fluctuation criterion as described in the paper and conducted
 experiments
 
+### Environment setup
+
+```python
+pip install -r requirements.txt
+```
+
 ### Add new argument for reproduction
 
 - `--without_R`, `--without_Lcr` for table 7, Fig. 10 reproduction
