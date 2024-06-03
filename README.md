@@ -14,7 +14,7 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 - Claim 3 : The regularization terms improve the performance of SFT. (Table 7, Fig 10)
 - Claim 4 : With a smaller T, SFT attains the best performance. (Fig 9)
 
-To verify whether the model can robustly learn despite changes in initial model parameters and data distribution, we conducted additional experiments by changing only the data seed while keeping the model seed constant. Upon reviewing the code provided in the paper, we found discrepancies between the provided code and the method described in the paper. This is explained in the following 2.
+To verify whether the model can robustly learn despite changes in initial model parameters and data distribution, we conducted additional experiments by changing only the data seed while keeping the model seed constant. Upon reviewing the code provided in the paper, we found discrepancies between the provided code and the method described in the paper.
 
 - To verify whether the model can robustly learn despite changes in initial model parameters and data distribution, we conducted additional experiments by changing only the data seed while keeping the model seed constant.
 - The authors proposed fluctuation, where samples are considered noisy if they transition from correct predictions to incorrect predictions. However, upon examining the implementation in the open-sourced code, we found that selection is based on both the prediction robabilities stored in the memory bank and the presence of fluctuation. Therefore, we implemented the fluctuation criterion as described in the paper and conducted experiments.
@@ -42,9 +42,9 @@ For CIFAR-10, `warm_up = 10`,`model = resnet18`
 For CIFAR-100, `warm_up = 30`,`model = resnet34`
 
 **In our study, we focused on CIFAR-10 for simplification of the experiment.**
+Before you run it, please download the CIFAR-10 dataset in `./datset` folder.
 
 ### Run SFT
-Before you run it, please download the CIFAR-10 dataset in `./datset` folder.
 
 ```
 python main.py --dataset cifar10 --model resnet18 --batch_size 32 --lr 0.02 --warm_up 10 --num_epochs 100 --noise_mode instance --r 0.2 --k 2 --T 0.2 --gpuid 0
