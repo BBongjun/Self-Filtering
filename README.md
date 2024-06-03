@@ -1,5 +1,5 @@
 
-# Reproducibility Study of Self-Filtering
+# Reproducing  "Self-Filtering: A Noise-Aware Sample Selection for Label Noise with Confidence Penalization"
 
 We utilize [the official PyTorch Implementation of Self-Filtering](https://github.com/1998v7/Self-Filtering) provided by authors.
 
@@ -15,7 +15,6 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 - Claim 4 : With a smaller T, SFT attains the best performance. (Fig 9)
 
 
-
 ### Add new argument for reproduction
 - `--fig_7` for Fig.7 reproduction
 
@@ -25,7 +24,7 @@ We utilize [the official PyTorch Implementation of Self-Filtering](https://githu
 
 - `--fluctuation_ablation` for our implementation for fluctuation algorithm based on paper.
 
-- we utilize [Coteaching official code] and [JoCoR official code] for Claim 1.
+- we utilize [Coteaching official code](https://github.com/bhanML/Co-teaching) and [JoCoR official code](https://github.com/hongxin001/JoCoR) for Claim 1.
 
 
 ### Hyper-parameter and settings
